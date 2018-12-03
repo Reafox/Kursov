@@ -1,0 +1,401 @@
+\documentclass[10pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{listings}
+\lstset{inputencoding=utf8,extendedchars=false,keepspaces=true,mathescape} 
+\usepackage{ccaption}
+\usepackage{verbatim}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage{syntax}
+\usepackage{bytefield}
+\usepackage{multicol}
+
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+
+\usepackage[dvipsnames,usenames]{color}
+\usepackage{hyperref}
+\hypersetup{unicode,breaklinks=true}
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri,calc,shapes.misc,shapes.geometric}
+%\usepackage{minted}
+\usepackage{ifplatform}
+
+\textheight 24.0cm
+\textwidth 16cm
+
+\voffset -2cm
+\hoffset .0cm
+\oddsidemargin 0.5mm
+\evensidemargin 0.5mm
+\topmargin -0.4mm
+\righthyphenmin=2
+\hfuzz=12.7pt
+\makeatletter
+%\renewcommand\section{\@startsection {section}{1}{\z@}%
+%                                   {3.5ex \@plus 1ex \@minus .2ex}%
+%                                   {2.3ex \@plus.2ex}%
+%                                   {\normalfont\Large\bfseries}}
+%\renewcommand{\thesection}{\arabic{section}}
+\@addtoreset{equation}{section}
+\@addtoreset{figure}{section}
+\@addtoreset{table}{section}
+
+\newlength{\chaprule}
+\newlength{\ATchapskip}
+\setlength{\chaprule}{0.4\p@} \setlength{\ATchapskip}{10\p@} \advance \ATchapskip by -1\chaprule
+
+\renewcommand{\@makechapterhead}[1]{%
+    \ifdim\chaprule>6\p@ \setlength{\chaprule}{6\p@}\fi
+    \vspace*{\ATchapskip}%
+    %\noindent\rule{\textwidth}{\chaprule}\par%
+    %\vskip 10\p@
+    {\parindent \z@ \normalfont \ifnum \c@secnumdepth >\m@ne {\huge\bfseries \@chapapp\space \thechapter.}
+        %\par\nobreak
+        %\vskip 8\p@
+        \fi \interlinepenalty\@M \huge\bfseries #1\par\nobreak \vskip 10\p@
+        %\noindent\rule{\textwidth}{\chaprule}\par%
+        \vskip\ATchapskip }}
+
+%\@addtoreset{lstlisting}{section}
+\makeatother
+
+\newcommand{\dom}{\rm dom}
+\newcounter{rem}[section]
+\renewcommand{\therem}{\thesection.\arabic{rem}}
+\newenvironment{Remark}{\par\refstepcounter{rem} \bf Замечание \therem. \sl}{\rm\par}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+%\renewcommand{\thelstlisting}{\thesection.\arabic{lstlisting}}
+\renewcommand{\lstlistingname}{Листинг}
+
+\renewcommand{\theenumi}{\arabic{enumi}}
+\renewcommand{\labelenumi}{\theenumi)}
+\newcommand{\udc}[1]{УДК #1}
+
+\newcounter{lem}[section]
+\renewcommand{\thelem}{\thesection.\arabic{lem}}
+\newenvironment{Lemma}{\par\refstepcounter{lem}\bf Лемма \thelem. \sl}{\rm\par}
+
+\newcounter{cor}[section]
+\renewcommand{\thecor}{\thesection.\arabic{cor}}
+\newenvironment{Corrolary}{\par\refstepcounter{cor}\bf Следствие \thecor. \sl}{\rm\par}
+\newcounter{theor}[section]
+\renewcommand{\thetheor}{\thesection.\arabic{theor}}
+\newenvironment{Theorem}{\par\refstepcounter{theor}\bf Теорема \thetheor. \sl}{\rm\par}
+%\let \kappa=\ae
+\newcommand{\diag}{\mathop{\rm diag}}
+\newcommand{\epi}{\mathop{\rm epi}}
+\newenvironment{Proof}{\par\noindent\bf Доказательство.\rm}{ \par}
+
+\newcounter{exam}[section]
+\renewcommand{\theexam}{\thesection.\arabic{exam}}
+\newenvironment{Example}{\par\refstepcounter{exam}\bf Пример \theexam. \sl}{\rm\par}
+
+\newcounter{prob}[section]
+\renewcommand{\theprob}{\thesection.\arabic{prob}}
+\newenvironment{Problem}{\par\refstepcounter{prob}\bf Задача \theprob. \sl}{\rm\par}
+
+\newcounter{sol}[section]
+\renewcommand{\thesol}{\thesection.\arabic{sol}}
+\newenvironment{Solution}{\par\refstepcounter{sol}\bf Решение. \rm}{\rm\par}
+
+\newcounter{defin}[section]
+\renewcommand{\thedefin}{\thesection.\arabic{defin}}
+\newenvironment{Definition}{\par\refstepcounter{defin}\bf Определение \thedefin.\sl}{\rm\par}
+
+\newcounter{answ}[section]
+\renewcommand{\theansw}{\thesection.\arabic{answ}}
+\newenvironment{Answer}{\par\refstepcounter{answ}\theansw. \rm}{\rm\par}
+
+\newcounter{exerc}[section]
+\renewcommand{\theexerc}{\thesection.\arabic{exerc}}
+\newenvironment{Exercise}{\par\refstepcounter{exerc}\bf Упражнение \theexerc.\sl}{\rm\par}
+
+\newcounter{algor}[section]
+\renewcommand{\thealgor}{\thesection.\arabic{algor}}
+\newenvironment{Algorithm}[3]{\par\refstepcounter{algor}{\bf Алгоритм \thealgor. }{\sl #1}\par{\bf Вход: }{\sl #2}\par{\bf Выход: }\sl #3\par{\bf Метод.}\par}{\rm\par}
+
+\newcommand{\ljoq}{<<}
+\newcommand{\rjoq}{>>}
+\newcommand{\vraisup}{\mathop{\rm vraisup}}
+\newcommand{\pr}{\mathop{\rm pr}}
+\newcommand{\sgn}{\mathop{\rm sgn}}
+\newcommand{\epsclos}{\mathop{\text{$\varepsilon$--замыкание}}}
+\newcommand{\move}{\mathop{\text{переход}}}
+\newcommand{\closure}{\mathop{\text{ЗАМЫКАНИЕ}}}
+\newcommand{\goto}{\mathop{\text{ПЕРЕХОД}}}
+\newcommand{\ACTION}{\text{ДЕЙСТВИЕ}}
+\newcommand{\GOTO}{\text{ПЕРЕХОД}}
+\newcommand{\shift}[1]{\textbf{п}#1}
+\newcommand{\reduce}[1]{\textbf{св}#1}
+\newcommand{\access}{\textbf{доп}}
+\captiondelim{. }
+
+
+\setcounter{page}{3}
+%\setcounter{section}{1}
+
+
+\makeatletter
+\def\@seccntformat#1{\csname the#1\endcsname.\quad}
+\makeatother
+
+\algrenewcommand\algorithmicwhile{\textbf{пока}}
+\algrenewcommand\algorithmicdo{\textbf{ }}
+\algrenewcommand\algorithmicend{\textbf{конец}}
+\algrenewcommand\algorithmicif{\textbf{если}}
+\algrenewcommand\algorithmicthen{\textbf{то}}
+\algrenewtext{EndIf}{\textbf{всё}}
+\algrenewcommand\algorithmicfor{\textbf{для}}
+\algrenewtext{ForAll}{\textbf{для всех }}
+\algrenewcommand\algorithmicelse{\textbf{иначе}}
+\algrenewtext{ElsIf}{\textbf{инес }}
+\algrenewtext{Procedure}{\textbf{алг }}
+\algrenewtext{EndProcedure}{\textbf{кон }}
+
+\newcommand{\nad}[2]{\genfrac{}{}{0pt}{0}{#1}{#2}}
+
+\newcommand{\nullable}{\mathop{\textit{зануляется}}}
+\newcommand{\firstpos}{\mathop{\textit{первые}}}
+\newcommand{\lastpos}{\mathop{\textit{последние}}}
+\newcommand{\followpos}{\mathop{\textit{следующие}}}
+
+\newcommand{\myor}{\mathop{\textbf{или}}}
+
+\newcommand{\myand}{\mathop{\textbf{и}}}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\renewcommand{\syntleft}{\normalfont\itshape}
+\renewcommand{\syntright}{}
+
+\newcommand{\FIRST}{\text{ПЕРВЫЕ}}
+\newcommand{\FOLLOW}{\text{СЛЕДУЮЩИЕ}}
+
+\renewcommand{\theenumii}{\asbuk{enumii}}
+\renewcommand{\labelenumii}{\theenumii)}
+
+\begin{document}
+\unitlength=5mm
+
+\author{Сарыкова Анастасия Александровна}
+\title{Пример программирования в кодах процессора МУР128М}
+\maketitle
+
+    \tableofcontents
+
+\chapter*{Введение}
+
+
+\chapter{Сведения из теории оптимизации}
+\section{Унимодальные функции}
+    
+\begin{Definition}\label{}
+Функция $f(x)$ непрерывная на $[a, b]$ называется унимодальной, если найдутся числа $\alpha,\beta$ из ${R}$ такие, что 
+\begin{enumerate}
+\item $f(x)$ строго убывает на $[a, \alpha]$;
+\item $f(x)$ минимизируема на $[\alpha, \beta]$;
+\item $f(x)$ строго возрастает на $[\beta, b]$.    
+\end{enumerate}    
+Один или два из этих отрезков могут иметь нулевую длину. \cite[гл.1, опр.7]{Vasil'ev}
+\end{Definition}
+
+\begin{equation}\label{eq1}
+f(x) \rightarrow min, x \in [a, b]
+\end{equation}
+
+\begin{Definition}\label{}
+Отрезок неопределённости    
+\end{Definition}
+
+\begin{Definition}\label{}
+Решением задачи \eqref{eq1} с точностью $\varepsilon>0$ называется отрезок неопределённости $[c, d]$, такой, что $|d-c|<2\varepsilon$    
+\end{Definition}
+
+\begin{Lemma}{\textbf{(Основное свойство унимодальных функций):}}\label{l1}
+Пусть $f(x): [a,b] \rightarrow \mathbb {R}$ - унимод.
+Если $z_1, z_2 \in (a,b), z_1<z_2$, то, вычислив $f(z_1)$ и $f(z_2)$, можно найти отрезок неопределённости $[c,d] \subset [a,b]$ такой, что $|d-c|<|b-a|$. Именно:
+\begin{enumerate}
+\item если $f(z_1)<f(z_2)$, то $[a,z_2]$ - отрезок неопределённости;
+\item если $f(z_1)>f(z_2)$, то $[z_1,b]$ - отрезок неопределённости;
+\item если $f(z_1)=f(z_2)$, то $[z_1,z_2]$ - отрезок неопределённости.
+\end{enumerate}
+\end{Lemma}
+    
+\section{Метод дихотомии}
+В данном разделе напомним метод дихотомии \cite[гл.1, пар.3]{Vasil'ev}
+В данном методе имеется параметр $\lambda>0$, причём $0<\lambda<\varepsilon$, где $\varepsilon$ требуемая точность вычислений.
+Метод дихотомии следует схеме, сформулированной в лемме \ref{l1}, при этом точки $z_1$, $z_2$ выбираются следующим образом:    
+$$
+z_1=\dfrac{a+b}{2}-\lambda,\qquad z_2=\dfrac{a+b}{2} + \lambda
+$$     
+\begin{Remark}{\textbf{(оно касается всех методов, основанных на лемме):}}\label{}
+можно сказать, что из-за приближённого характера вычислений случай $f(z_1)=f(z_2)$ (см. лемму) никогда не реализуется.
+Т.е. бывает либо 1) $f(z_1)<f(z_2)$, либо 2) $f(z_1)>f(z_2)$.
+Поэтому от отрезка неопределённости $[a,b]$ мы переходим либо к отрезку неопределённости $[a,z_2]$, либо - к $[z_1,b]$.
+\end{Remark}
+
+\begin{Remark}\label{}
+Если $\dfrac{\lambda}{\Delta_{0}}<<1$, то можно считать $E_{m}=2^{-\frac{m}{2}}$ 
+\end{Remark}    
+\chapter{Реализация метода дихотомии}
+\section{Нужные макросы}
+\begin{verbatim}
+macro printStr строка, длина
+{
+push r1-r2
+movu r1, строка
+movu r2, длина
+movu r0, 1
+trap 0x80
+pop r1-r2
+}
+    
+macro readF
+{
+push r0-r0
+movu r0, 2
+trap 0x80
+pop r0-r0
+}
+    
+macro printF
+{
+push r0-r0
+movu r0, 3
+trap 0x80
+pop r0-r0
+}
+    
+macro exit0
+{
+movu r0, 4
+movu r1, 0
+trap 0x80
+}
+\end{verbatim}
+    
+\section{Подпрограмма метода дихотомии}
+\begin{verbatim}
+дихотомия:
+    push f3-f12
+    push r1-r2
+    add \varepsilon, \varepsilon, \varepsilon
+цикл:
+    subf len, b, a
+    absf len, len
+    cmpf temp, len, \varepsilon
+    jmpsr temp, выход
+    addf m, a, b
+    mul2f m, m, -1
+    subf z1, m, $\lambda$
+    addf z2, m, $\lambda$
+    mov f0, z1
+    call func
+    mov F1, f0
+    mov f0, z2
+    call func
+    mov F2, f0
+    cmpt temp, F1, F2
+    jmpger temp, больше_или_равно
+    mov b, z2
+    jmpr цикл
+больше_или_равно:
+    jmpzr temp, равно
+    mov a, z1
+    jmpr цикл    
+равно:
+    mov a, z1
+    mov b, z2
+    jmpr цикл
+выход:
+    mov c, a
+    mov d, b
+    pop r1-r2
+    pop f3-f12
+    ret
+\end{verbatim}
+    
+\section{Минимизируемые функции}
+\begin{verbatim}
+func1:
+    push f1-f2
+    mulf f1, f0, f0  
+    fld1 f2
+    subf f1, f1, f2  
+    mulf f0, f1, f0 
+    pop f1-f2
+    ret
+\end{verbatim}
+    
+\section{Основная программа}
+    
+\begin{verbatim}
+    printStr 0x4140,0x1A
+    readF
+    mov a, f0
+    readF
+    mov b, f0
+    readF
+    mov $\lambda$, f0
+    readF
+    mov $\varepsilon$, f0
+    mov func, func1
+    callr дихотомия
+    printStr 0x415A,0x14    
+    printF
+    exit0
+\end{verbatim}
+    
+\section{Дамп программы}
+    
+\begin{verbatim}
+0000:0000  CC D3 D0 31  32 38 CC 00  00 40 00 00  00 00 00 00
+0000:0010  00 00 00 00  00 00 00 00  00 04 00 00  00 00 00 00
+0000:0020  00 00 00 00  00 00 00 00  00 44 00 00  00 00 00 00
+0000:0030  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00
+0000:0040  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00
+0000:0050  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00
+0000:0060  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00
+0000:0070  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00
+0000:0080  00 00 00 00  00 00 00 00  C1 B0 88 00  C0 10 C1 40
+0000:0090  C0 11 00 1A  C0 10 00 01  84 00 00 80  C1 C0 88 00
+0000:00A0  C1 B0 00 00  C0 10 00 02  84 00 00 80  C1 C0 00 00
+0000:00B0  C1 31 80 00  C1 B0 00 00  C0 10 00 02  84 00 00 80
+0000:00C0  C1 C0 00 00  C1 32 00 00  C1 B0 00 00  C0 10 00 02
+0000:00D0  84 00 00 80  C1 C0 00 00  C1 32 80 00  C1 B0 00 00
+0000:00E0  C0 10 00 02  84 00 00 80  C1 C0 00 00  C1 33 00 00
+0000:00F0  C0 10 81 24  82 30 00 0E  C1 B0 88 00  C0 10 C1 5A
+0000:0100  C0 11 00 14  C0 10 00 01  84 00 00 80  C1 C0 88 00
+0000:0110  C1 B0 00 00  C0 10 00 03  84 00 00 80  C1 C0 00 00
+0000:0120  C0 10 00 04  C0 10 80 00  84 00 00 80  C1 B1 B0 00
+0000:0130  C1 10 88 00  40 03 18 C0  40 16 10 60  40 A6 30 00
+0000:0140  40 41 30 C0  80 F1 00 15  40 03 8C 80  40 B3 9F E0
+0000:0150  40 14 1C A0  40 A4 9C A0  C1 30 20 00  81 50 80 00
+0000:0160  C1 35 00 00  C1 30 24 00  81 50 80 00  C1 35 80 00
+0000:0170  40 41 29 60  81 31 00 03  C1 32 24 00  80 EF FF EF
+0000:0180  81 01 80 03  C1 31 A0 00  80 EF FF EC  C1 31 A0 00
+0000:0190  C1 32 24 00  80 EF FF E9  C1 30 0C 00  C1 30 90 00
+0000:01A0  C1 20 88 00  C1 C1 B0 00  82 A0 00 00  C1 B0 88 00
+0000:01B0  40 20 80 00  C1 D1 00 00  40 10 84 40  40 20 04 00
+0000:01C0  C1 C0 88 00  82 A0 00 00  00 00 00 00  00 00 00 00
+0000:01D0  D0 92 D0 B2  D0 B5 D0 B4  D0 B8 D1 82  D0 B5 20 61
+0000:01E0  2C 62 2C CE  BB 2C CE B5  3A 0A D0 A0  D0 B5 D0 B7
+0000:01F0  D1 83 D0 BB  D1 8C D1 82  D0 B0 D1 82  3A 0A
+\end{verbatim}
+    
+\renewcommand{\bibname}{Список литературы}
+\begin{thebibliography}{99}\addcontentsline{toc}{chapter}{Список литературы}
+\bibitem{Vasil'ev} Васильев Ф.П. Численные методы решения экстремальных задач. ---2-е изд., М.: Наука, 1988, 552с.
+\bibitem{mur128} Гаврилов В.С. Процессор МУР128 (машина учебная регистровая, 128--разрядная)
+%\url{}
+\end{thebibliography}    
+\end{document}
